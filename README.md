@@ -1,6 +1,16 @@
 # cl — Claude × Telegram Bot（Mac 远程控制）
 
-通过 Telegram 远程控制 Mac，让 Claude 执行命令、做数据分析。Bot 在 Mac 本地运行，Claude 可以读写文件、跑脚本、调用数据分析工具。
+通过 Telegram 远程控制 Mac，让 Claude Code 执行命令、做数据分析。  
+**无需 API Key** — 使用 Claude Pro 账号即可。
+
+## 前提条件
+
+Mac 上需安装 Claude Code CLI 并登录：
+
+```bash
+npm install -g @anthropic-ai/claude-code
+claude auth login   # 用浏览器登录你的 Claude Pro 账号
+```
 
 ## 快速开始
 
@@ -8,17 +18,13 @@
 
 1. 在 Telegram 搜索 [@BotFather](https://t.me/BotFather)
 2. 发送 `/newbot`，按提示设置名称和用户名
-3. 复制获得的 Bot Token
+3. 复制获得的 Bot Token（**不要分享给任何人**）
 
-### 2. 获取 Anthropic API Key
-
-前往 [console.anthropic.com](https://console.anthropic.com) 创建 API Key。
-
-### 3. 查询你的 Telegram 用户 ID（强烈建议）
+### 2. 查询你的 Telegram 用户 ID（强烈建议）
 
 向 [@userinfobot](https://t.me/userinfobot) 发任意消息，它会返回你的数字 ID。
 
-### 4. 配置环境变量
+### 3. 配置环境变量
 
 ```bash
 cp .env.example .env
@@ -27,20 +33,19 @@ cp .env.example .env
 编辑 `.env`：
 
 ```env
-TELEGRAM_BOT_TOKEN=123456:ABC-xxx
-ANTHROPIC_API_KEY=sk-ant-xxx
-ALLOWED_USER_IDS=你的TelegramID        # 强烈建议填写，防止他人控制你的Mac
-WORK_DIR=/Users/yourname/projects/anda  # Bot 的默认工作目录
+TELEGRAM_BOT_TOKEN=8432888793:AAF...   # 你的 Bot Token
+ALLOWED_USER_IDS=123456789             # 你的 Telegram 数字 ID（必填！）
+WORK_DIR=/Users/yourname/projects/anda # 默认工作目录
 ```
 
-### 5. 安装依赖并运行
+### 4. 安装依赖并运行
 
 ```bash
 pip install -r requirements.txt
 python bot.py
 ```
 
-建议用 `tmux` 或 `nohup` 保持后台运行：
+后台运行：
 
 ```bash
 nohup python bot.py > bot.log 2>&1 &
