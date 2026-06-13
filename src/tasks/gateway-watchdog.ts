@@ -3,8 +3,14 @@ import { logger } from '../logger';
 const GATEWAY_URL = process.env.GATEWAY_URL ?? 'http://localhost:8080/health';
 const TIMEOUT_MS = parseInt(process.env.WATCHDOG_TIMEOUT_MS ?? '10000', 10);
 const ALERT_THRESHOLD = parseInt(process.env.WATCHDOG_ALERT_THRESHOLD_MS ?? '3000', 10);
+const MAX_SESSION_MINUTES = parseInt(process.env.MAX_SESSION_MINUTES ?? '120', 10);
 
 export async function gatewayWatchdog(): Promise<void> {
+  await checkGateway();
+  await checkSessionLengths();
+}
+
+async function checkGateway(): Promise<void> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
@@ -28,4 +34,10 @@ export async function gatewayWatchdog(): Promise<void> {
   } finally {
     clearTimeout(timer);
   }
+}
+
+async function checkSessionLengths(): Promise<void> {
+  // Merged from standalone session-length-check task
+  logger.debug(`Checking sessions (max ${MAX_SESSION_MINUTES}min)`, { task: 'gateway-watchdog' });
+  // TODO: scan active sessions, warn or terminate those exceeding MAX_SESSION_MINUTES
 }

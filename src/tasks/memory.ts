@@ -1,28 +1,27 @@
 import { logger } from '../logger';
 
+// memory-sync: runs hourly at :25, includes optimization (merged from standalone task)
 export async function memorySync(): Promise<void> {
   logger.info('Starting memory sync', { task: 'memory-sync' });
   // TODO: sync in-memory state to persistent storage
-  logger.info('Memory sync completed', { task: 'memory-sync' });
-}
+  logger.info('Memory sync done, running optimization', { task: 'memory-sync' });
 
-export async function memoryOptimization(): Promise<void> {
-  logger.info('Starting memory optimization', { task: 'memory-optimization' });
+  // Merged from standalone memory-optimization task
+  logger.info('Running memory optimization', { task: 'memory-sync' });
   // TODO: defragment, deduplicate, prune stale memory entries
-  logger.info('Memory optimization completed', { task: 'memory-optimization' });
+  logger.info('Memory sync + optimization completed', { task: 'memory-sync' });
 }
 
-export async function memoryHealthCheck(): Promise<void> {
-  logger.info('Running memory health check', { task: 'memory-health-check' });
-  // TODO: verify integrity of memory store, report anomalies
-  logger.info('Memory health check completed', { task: 'memory-health-check' });
-}
-
+// memory-maintenance: runs daily at 23:00, includes health check (merged from 00:20 task)
 export async function memoryMaintenancePipeline(): Promise<void> {
   logger.info('Starting memory maintenance pipeline', { task: 'memory-maintenance' });
-  // Runs in sequence: health → sync → optimize → compact
-  await memoryHealthCheck();
+
+  // Step 1: health check (merged from standalone 00:20 task)
+  logger.info('Running memory health check', { task: 'memory-maintenance' });
+  // TODO: verify integrity of memory store, report anomalies
+
+  // Step 2: sync + optimize
   await memorySync();
-  await memoryOptimization();
+
   logger.info('Memory maintenance pipeline completed', { task: 'memory-maintenance' });
 }
