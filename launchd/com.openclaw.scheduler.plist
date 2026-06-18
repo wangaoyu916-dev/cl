@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.openclaw.scheduler</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/node</string>
+        <string>OPENCLAW_INSTALL_PATH/dist/scheduler.js</string>
+    </array>
+
+    <!-- Environment passed to the Node.js process -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>TZ</key>
+        <string>Asia/Shanghai</string>
+        <key>NODE_ENV</key>
+        <string>production</string>
+        <key>OPENCLAW_HOME</key>
+        <string>OPENCLAW_INSTALL_PATH</string>
+        <key>LOG_LEVEL</key>
+        <string>info</string>
+        <key>GATEWAY_URL</key>
+        <string>http://localhost:8080/health</string>
+        <key>WATCHDOG_TIMEOUT_MS</key>
+        <string>10000</string>
+        <key>WATCHDOG_ALERT_THRESHOLD_MS</key>
+        <string>3000</string>
+        <key>MAX_SESSION_MINUTES</key>
+        <string>120</string>
+        <key>API_DAILY_TOKEN_THRESHOLD</key>
+        <string>500000</string>
+        <key>DISK_ALERT_THRESHOLD_PCT</key>
+        <string>85</string>
+        <key>REFLECTION_IDLE_THRESHOLD_MS</key>
+        <string>3600000</string>
+    </dict>
+
+    <!-- Restart automatically if the process exits -->
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- Wait 10s before restarting after a crash -->
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+
+    <!-- Start on login -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>OPENCLAW_INSTALL_PATH/logs/scheduler.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>OPENCLAW_INSTALL_PATH/logs/scheduler-error.log</string>
+
+    <!-- Prevent launchd from launching this before network is available -->
+    <key>Sockets</key>
+    <dict/>
+</dict>
+</plist>

@@ -1,0 +1,22 @@
+{
+  "name": "openclaw-scheduler",
+  "version": "1.0.0",
+  "description": "OpenClaw scheduled task system",
+  "main": "dist/scheduler.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/scheduler.js",
+    "dev": "ts-node src/scheduler.ts",
+    "lint": "eslint src/**/*.ts"
+  },
+  "dependencies": {
+    "node-cron": "^3.0.3",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/node-cron": "^3.0.11",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  }
+}
